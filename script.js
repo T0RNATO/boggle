@@ -1,4 +1,4 @@
-import {data} from '/words.js';
+import {data} from './words.js';
 var cells = document.getElementsByTagName("td")
 var selected = []
 var el;
