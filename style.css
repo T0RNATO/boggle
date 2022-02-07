@@ -1,0 +1,91 @@
+td {
+  width: 80px;
+  height: 80px;
+  padding: 0px;
+  text-align: center;
+  font-size: 50px;
+  cursor: pointer;
+  border: 1px solid black;
+  background-color: white;
+  transition: 0.2s;
+  color: black;
+}
+button {
+  width: 100px;
+  height: 50px;
+  font-size: 30px;
+  margin-top: 10px;
+  background-color: #a5abb5;
+  color: black;
+}
+table {
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 600;
+}
+div.format {
+  text-align: center;
+  float: left;
+}
+p {
+  font-size: 20px;
+  height: 90%;
+  text-transform: capitalize;
+  column-width: 110px;
+}
+#words {
+  float: left;
+  height: 98%;
+  width: 28%;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+* {
+  font-family: 'Open Sans', sans-serif;
+  user-select: none;
+  color: #bdc1c6;
+}
+h1 {
+  font-size: 80px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+span {
+  font-weight: 800;
+  font-size: 25px;
+  margin-top: 0px;
+}
+body {
+  background-color: #202124;
+}
+h3 {
+  margin-top: -20px;
+  margin-bottom: 50px;
+}
+div.switch {
+  width: 100px;
+  height: 5px;
+  margin-top: -20px;
+  margin-left: 3px;
+  background-color: white;
+  --location: -50px;
+}
+div.switch::before{
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  left: var(--location);
+  top: -7px;
+  content: "";
+  position: relative;
+  background-color: rgb(72, 79, 109);
+  transition: 0.5s;
+}
+#switchbox {
+  width: 110px;
+  float: right;
+  text-align: center;
+  white-space: pre;
+  line-height: 30px;
+}
