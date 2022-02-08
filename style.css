@@ -10,11 +10,13 @@ td {
   transition: 0.2s;
   color: black;
 }
-button {
+#go, #popupgo {
   width: 100px;
   height: 50px;
-  font-size: 30px;
+  font-size: 20px;
   margin-top: 10px;
+}
+button {
   background-color: #a5abb5;
   color: black;
 }
@@ -26,10 +28,11 @@ table {
 div.format {
   text-align: center;
   float: left;
+  width: 40%;
 }
 p {
   font-size: 20px;
-  height: 90%;
+  height: 85%;
   text-transform: capitalize;
   column-width: 110px;
 }
@@ -47,10 +50,13 @@ p {
 }
 h1 {
   font-size: 80px;
-  margin-top: 10px;
+  margin-top: 70px;
   margin-bottom: 0px;
+  z-index: 3;
+  position: relative;
+  transition: 1s;
 }
-span {
+#count {
   font-weight: 800;
   font-size: 25px;
   margin-top: 0px;
@@ -59,16 +65,18 @@ body {
   background-color: #202124;
 }
 h3 {
-  margin-top: -20px;
+  margin-top: -5%;
   margin-bottom: 50px;
+  z-index: 3;
+  position: relative;
 }
 div.switch {
-  width: 100px;
+  width: 275px;
   height: 5px;
-  margin-top: -20px;
+  margin-top: 10px;
   margin-left: 3px;
   background-color: white;
-  --location: -50px;
+  --location: 170px;
 }
 div.switch::before{
   border-radius: 50%;
@@ -82,10 +90,69 @@ div.switch::before{
   background-color: rgb(72, 79, 109);
   transition: 0.5s;
 }
-#switchbox {
-  width: 110px;
-  float: right;
-  text-align: center;
-  white-space: pre;
+#switchbox, #win {
+  width: 410px;
   line-height: 30px;
+  display: inline-block;
+  position: relative;
+  top: -105%;
+  font-size: 18px;
+  text-align: left;
+}
+#popup {
+  width: 40%;
+  height: 80%;
+  background-color: #171717;
+  z-index: 2;
+  position: relative;
+  left: 30%;
+  top: 10%;
+  border-radius: 10%/10%;
+  border: 2px solid white;
+  transition: 0.5s;
+  opacity: 0%;
+  text-align: center;
+  margin: 0px;
+}
+span.sliderformat {
+  padding-right: 68px;
+}
+input {
+  width: 400px;
+  height: 30px;
+  color: black;
+  font-size: 17px;
+}
+#timer {
+  float: right;
+  width: 10%;
+  height: 8%;
+  background-color: #bdc1c6;
+  color: black;
+  font-size: 40px;
+  border-radius: 10%/20%;
+  text-align: center;
+  margin-top: 15px;
+  margin-right: 15px;
+}
+#go {
+  opacity: 0%;
+  transition: 0.5s;
+}
+#wordlabel {
+  padding-left: 200px;
+}
+#timelabel {
+  padding-left: 66.666px;
+}
+.label {
+  line-height: 10px;
+}
+.center {
+  display: block;
+  width: auto;
+  text-align: center;
+}
+#win {
+  display: none;
 }
