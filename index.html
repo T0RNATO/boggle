@@ -1,19 +1,22 @@
 <head>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer type="module"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer type="module"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;800&display=swap" rel="stylesheet">
-    <title>Boggle</title>
+    <title>Biggle</title>
 </head>
 <body>
     <div id="words">
         <span id="count">Word Count: 0</span>
         <p id="output"></p>
+        <button id="copy">Copy Board Code</button>
     </div>
     <div class="format">
-        <h1>THE BOGGLE.</h1>
-        <h3>Designed by LittleDev in Melbourne</h3>
+        <h1 id="title">BIGGLE</h1>
+        <h3>A LittleDev Project</h3>
         <table>
             <tr><td></td><td></td><td></td><td></td><td></td></tr>
             <tr><td></td><td></td><td></td><td></td><td></td></tr>
@@ -23,7 +26,24 @@
         </table>
         <button id="go">Check</button>
     </div>
-    <div id="switchbox">Word Length
-        <div class="switch"></div>3+                 4+
+    <div id="timer">0</div>
+    <div id="popup">
+        <div id="switchbox">
+            Biggle is a spinoff of the game Boggle, in which you attempt to find as many words as possible in a certain time using a grid.<br><br>
+            <span id="count">Word Length</span><br>
+            <input id="wordlength" type="range" min="2" max="6"><br>
+            <span class="label" id="wordlabel">4+</span><br>
+            <span id="count">Time Limit (Seconds)</span><br>
+            <input id="time" type="range" min="10" max="300" value="60"><br>
+            <span class="label" id="timelabel">60</span><br><br>
+            Import Board (Leave blank for random board)
+            <input type="text" id="import" placeholder="Insert Code Here"><br>
+            <div class="center">
+                <button id="popupgo">Go</button>
+            </div>
+        </div>
+        <div id="win">
+            
+        </div>
     </div>
 </body>
