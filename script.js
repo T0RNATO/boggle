@@ -1,4 +1,4 @@
-import {data} from '/words.js'; // Import dictionary (scuff)
+import {data} from './words.js'; // Import dictionary (scuff)
 var cells = document.getElementsByTagName("td")
 var selected = [] // Selected cells
 var el;
