@@ -1,4 +1,4 @@
-td {
+td.gamecell {
   width: 80px;
   height: 80px;
   padding: 0px;
@@ -10,6 +10,20 @@ td {
   transition: 0.2s;
   color: black;
 }
+td.menucell {
+  width: 40px;
+  height: 40px;
+  padding: 0px;
+  text-align: center;
+  font-size: 25px;
+  border: 1px solid black;
+  background-color: white;
+  transition: 0.2s;
+  color: black;
+}
+table#longest {
+  margin-left: 22%;
+}
 #go, #popupgo {
   width: 100px;
   height: 50px;
@@ -20,7 +34,13 @@ button {
   background-color: #a5abb5;
   color: black;
 }
-table {
+#again {
+  width: 150px;
+  height: 50px;
+  font-size: 20px;
+  margin-top: 10px;
+}
+table#game {
   margin-left: auto;
   margin-right: auto;
   font-weight: 600;
@@ -100,7 +120,7 @@ div.switch::before{
   text-align: left;
 }
 #popup {
-  width: 40%;
+  width: 500px;
   height: 80%;
   background-color: #171717;
   z-index: 2;
@@ -122,6 +142,9 @@ input {
   height: 30px;
   color: black;
   font-size: 17px;
+}
+input#import {
+  width: 350px;
 }
 #timer {
   float: right;
@@ -155,4 +178,8 @@ input {
 }
 #win {
   display: none;
+}
+#daily {
+  width: 50px;
+  height: 30px;
 }
