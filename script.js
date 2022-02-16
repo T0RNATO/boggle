@@ -1,5 +1,5 @@
 import {data} from './words.js'; // Import dictionary (scuff)
-var cells = document.getElementsByTagName("td")
+var cells = document.getElementsByClassName("gamecell");
 var selected = [] // Selected cells
 var el;
 var sel;
@@ -9,15 +9,16 @@ var wordlength = 4; // Minimum word length
 var found = []; // Array of found words
 var timemax = 0; // Timer length
 var tiles = []; // Stored cell values
+var wordselects = []; // Store word selected tiles
 var dictionary = Object.keys(JSON.parse(data));
 document.getElementById("popup").style.opacity = "100%"; // Fade in start menu
-document.getElementById("go").addEventListener("click", check); // Check button
+document.getElementById("go").addEventListener("tap", check); // Check button
 document.addEventListener("keypress", function(evt) {  // Check for Enter key
   if (evt.code == "Enter") {
     check();
   }
 });
-document.getElementById("copy").addEventListener("click", () => { // Copy board code
+document.getElementById("copy").addEventListener("tap", () => { // Copy board code
   let clip = ""
   for (let i = 0; i < cells.length; i++) { // Loop through cells
     clip += cells[i].innerText.substring(0, 1); // Add first letter to string (for QU safety)
@@ -31,52 +32,103 @@ document.getElementById("wordlength").oninput = () => { // Min word length slide
 }
 
 document.getElementById("time").oninput = () => { // Timer slider
-  document.getElementById("timelabel").innerText = document.getElementById("time").value; // Change slider label text
+  document.getElementById("timelabel").innerHTML = document.getElementById("time").value < 301 ? document.getElementById("time").value : "<span style='transform: rotate(-90deg); display: inline-block'>8</span>"; // Change slider label text
   document.getElementById("timelabel").style.paddingLeft = (Number(document.getElementById("time").value) - 10) * 1.333333; // and pos
 }
 
-document.getElementById("popupgo").addEventListener("click", () => { // Go button on starting menu
+document.getElementById("daily").addEventListener("tap", () => {
+  document.getElementById("import").value = btoa("Daily");
+})
+
+function endmenu(interval) {
+  document.getElementById("switchbox").style.display = "none"; // Bring back menu, etc
+  document.getElementById("popup").style.display = "block";
+  document.getElementById("win").style.display = "inline-block";
+  document.getElementById("title").style.marginTop = "70px"
+  document.getElementById("go").style.opacity = "0%";
+  let longestword = found.reduce((p, c) => p.length > c.length ? p : c);
+  if (words > 0) {
+    document.getElementById("endtext").innerHTML = `You found ${words} word${+ words == 1 ? "":"s"} of ${wordlength} letters or more in ${timemax} seconds!
+    Your longest word was <span style="text-transform: capitalize; font-weight:800">${longestword}</span>
+    <table id='longest'>${("<tr>" + "<td class='menucell'>".repeat(5) + "<tr>").repeat(5)}</table>` // Create longest word table
+  } else {
+    document.getElementById("endtext").innerText = "You didn't find any words :("
+  }
+  for (let i = 0; i < document.getElementsByClassName("menucell").length; i++) { // Loop through tiles
+    document.getElementsByClassName("menucell")[i].innerText = tiles[i]; // Set letters of table
+    if (wordselects[found.indexOf(longestword)].includes(i)) { // If cell is in the longest word
+      document.getElementsByClassName("menucell")[i].style.backgroundColor = "#30db64"; // Set to green
+    }
+  }
+  clearInterval(interval); // Stop timer
+}
+
+function bogglelongest(element, index) {
+  
+}
+
+// START GAME
+function startgame() {
   document.getElementById("popup").style.display = "none"; // Hide menu
   document.getElementById("go").style.opacity = "100%"; // Fade in check button
   document.getElementById("title").style.marginTop = "20px" // Move up title
   timemax = Number(document.getElementById("time").value);
   document.getElementById("timer").innerText = timemax; // Set timer to time left
 
-  var start = Date.now(); // Record timer starting time
-  var timerinterval = setInterval(function() { // Start loop every 500ms
-    var difference = Date.now() - start; // Get difference from starting time
-    document.getElementById("timer").innerText = timemax - Math.floor(difference / 1000); // Update timer with difference
-    if (timemax - Math.floor(difference / 1000) == 0) { // If timer reached 0
-      document.getElementById("switchbox").style.display = "none"; // Bring back menu, etc
-      document.getElementById("popup").style.display = "block";
-      document.getElementById("win").style.display = "inline-block";
-      document.getElementById("title").style.marginTop = "70px"
-      document.getElementById("go").style.opacity = "0%";
-      document.getElementById("win").innerText = `You found ${words} word${+ words == 1 ? "":"s"} in ${timemax} seconds!`
-      clearInterval(timerinterval); // Stop loop
-    }
-}, 500);
+  if (timemax < 301) {
+    var start = Date.now(); // Record timer starting time
+    var timerinterval = setInterval(function() { // Start loop every 500ms
+      var difference = Date.now() - start; // Get difference from starting time
+      document.getElementById("timer").innerText = timemax - Math.floor(difference / 1000); // Update timer with difference
+      if (timemax - Math.floor(difference / 1000) == 0) { // If timer reached 0
+        endmenu(timerinterval);
+      }
+    }, 500);
+  } else {
+    document.getElementById("timer").innerHTML = "<span style='transform: rotate(-90deg); display: inline-block; color: black;'>8</span>";
+  }
   
   wordlength = Number(document.getElementById("wordlength").value);
-  if (document.getElementById("import").value == '') {
+  let importi = document.getElementById("import").value;
+  if (importi == btoa('Daily')) {
+    Math.seedrandom(Math.floor((((Date.now() / 1000) / 60) / 60) / 24))
+    dice = shuffleArray(dice)
+    importi = '';
+  }
+  if (importi == '') { // If no board code provided
+    for (let i = 0; i < cells.length; i++) { // Loop through cells
+      let random = Math.ceil(Math.random() * 6); // Random num 1-6
+      cells[i].innerText = dice[i].substring(random - 1, random); // Get one letter from dice using random num
+      if (dice[i].substring(random - 1, random) == "Q") { // If Q on the dice
+        cells[i].innerText = "Qu"; // Make it Qu
+      }
+      tiles.push(cells[i].innerText); // Internal tiles list
+    }
+  }
+  else {  // Or if there is a code
     for (let i = 0; i < cells.length; i++) {
-      let random = Math.ceil(Math.random() * 6);
-      cells[i].innerText = dice[i].substring(random - 1, random);
-      if (dice[i].substring(random - 1, random) == "Q") {
+      let code = atob(importi);
+      cells[i].innerText = code.substring(i, i + 1);
+      if (code.substring(i, i + 1) == "Q") {
         cells[i].innerText = "Qu";
       }
       tiles.push(cells[i].innerText);
     }
   }
-  else {
-    for (let i = 0; i < cells.length; i++) {
-      let code = atob(document.getElementById("import").value);
-      cells[i].innerText = code.substring(i, i + 1);
-      if (code.substring(i, i + 1) == "Q") {
-        cells[i].innerText = "Qu";
-      }
-    }
-  }
+  tiles.forEach(bogglelongest(element, index))
+}
+
+document.getElementById("popupgo").addEventListener("tap", startgame)
+document.getElementById("again").addEventListener("tap", () => {
+  document.getElementById("switchbox").style.display = "inline-block";
+  document.getElementById("win").style.display = "none";
+  document.getElementById("output").innerText = "";
+  document.getElementById("count").innerText = "Word Count: 0";
+  words = 0;
+  found = [];
+  tiles = [];
+  selected = [];
+  wordselects = [];
 })
 
 function shuffleArray(array) { // Shuffle dice array
@@ -99,7 +151,7 @@ function flash(hex) { // Flash selected tiles in a colour provided
 }
 
 // 25 * 6 sided dice from original boggle
-var dice = shuffleArray(["AAAFRS","AAEEEE","AAFIRS","ADENNN","AEEEEM","AEEGMU","AEGMNN","AFIRSY","BJKQXZ","CCENST","CEIILT","CEILPT","CEIPST","DDHNOT","DHHLOR","DHLNOR","DHLNOR","EIIITT","EMOTTT","ENSSSU","FIPRSY","GORRVW","IPRRRY","NOOTUW","OOOTTU"]);
+var dice = ["AAAFRS","AAEEEE","AAFIRS","ADENNN","AEEEEM","AEEGMU","AEGMNN","AFIRSY","BJKQXZ","CCENST","CEIILT","CEILPT","CEIPST","DDHNOT","DHHLOR","DHLNOR","DHLNOR","EIIITT","EMOTTT","ENSSSU","FIPRSY","GORRVW","IPRRRY","NOOTUW","OOOTTU"];
 
 function check() { // Check if selected cells are a word
   let word = "";
@@ -114,6 +166,7 @@ function check() { // Check if selected cells are a word
       words++;
       document.getElementById("count").innerText = "Word Count: " + words; // Increment word count
       found.push(word) // And internal word list
+      wordselects.push(selected);
     }
     else {
       flash("#d14747") // Flash red (invalid word/bad length)
@@ -153,7 +206,9 @@ function clicked(event) { // Tile clicked
   }
 }
 
+document.getElementById("game").innerHTML = ("<tr>" + "<td class='gamecell'>".repeat(5) + "<tr>").repeat(5);
+
 for (let i = 0; i < cells.length; i++) { // Loop through tiles
-  cells[i].addEventListener("click", clicked); // Assign them numerical ids (0-24)
+  cells[i].addEventListener("tap", clicked); // Assign them numerical ids (0-24)
   cells[i].id = i;
 }
