@@ -138,8 +138,8 @@ function startgame() {
   if (importi == '') { // If no board code provided
     for (let i = 0; i < cells.length; i++) { // Loop through cells
       let random = Math.ceil(Math.random() * 6); // Random num 1-6
-      cells[i].innerText = dice[i].charAt(random); // Get one letter from dice using random num
-      if (dice[i].substring(random - 1, random) == "Q") { // If Q on the dice
+      cells[i].innerText = dice[i].charAt(random - 1); // Get one letter from dice using random num
+      if (dice[i].charAt(random - 1) == "Q") { // If Q on the dice
         cells[i].innerText = "Qu"; // Make it Qu
       }
       tiles.push(cells[i].innerText); // Internal tiles list
