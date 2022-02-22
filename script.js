@@ -13,6 +13,7 @@ var wordselects = []; // Store word selected tiles
 var dictionary = Object.keys(JSON.parse(data));
 document.getElementById("popup").style.opacity = "100%"; // Fade in start menu
 document.getElementById("go").addEventListener("tap", check); // Check button
+
 document.addEventListener("keypress", function(evt) {  // Check for Enter key
   if (evt.code == "Enter") {
     check();
@@ -40,27 +41,63 @@ document.getElementById("daily").addEventListener("tap", () => {
   document.getElementById("import").value = btoa("Daily");
 })
 
-function endmenu(interval) {
+function copyimage(longestword) {
+  let canvas = document.createElement("canvas");
+  let can = canvas.getContext('2d');
+  canvas.width = 600
+  canvas.height = 300
+  can.fillStyle = '#202124'
+  can.fillRect(0, 0, 600, 300)
+  can.fillStyle = '#bdc1c6';
+  can.font = '20px Open Sans'
+  can.fillText(`I found ${words} words of ${wordlength} letters`, 30, 30)
+  can.fillText(`or more in ${timemax} seconds!`, 30, 55)
+  can.fillText(`My longest word was ${longestword.charAt(0).toUpperCase() + longestword.slice(1)}`, 30, 105)
+  can.font = '25px Open Sans'
+  for (let i = 0; i < cells.length; i++) {
+    if (wordselects[found.indexOf(longestword)].includes(i)) {
+      can.fillStyle = '#30db64'
+    } else {can.fillStyle = 'white'};
+    let mod = Math.floor(i / 5) * 45;
+    can.fillRect(i * 45 + 335 - (mod * 5), mod + 20, 40, 40)
+    can.fillStyle = 'black'
+    can.fillText(tiles[i], i * 45 + 345 - (mod * 5), mod + 50)
+  }
+  canvas.toBlob((blob) => {
+    navigator.clipboard.write([
+      new ClipboardItem({
+        [blob.type]: blob
+      })
+    ]);
+  });
+}
+
+function endmenu(interval) { // Ending popup
   document.getElementById("switchbox").style.display = "none"; // Bring back menu, etc
   document.getElementById("popup").style.display = "block";
   document.getElementById("win").style.display = "inline-block";
   document.getElementById("title").style.marginTop = "70px"
   document.getElementById("go").style.opacity = "0%";
-  let longestword = found.reduce((p, c) => p.length > c.length ? p : c);
   if (words > 0) {
+    let longestword = found.reduce((p, c) => p.length > c.length ? p : c);
     document.getElementById("endtext").innerHTML = `You found ${words} word${+ words == 1 ? "":"s"} of ${wordlength} letters or more in ${timemax} seconds!
     Your longest word was <span style="text-transform: capitalize; font-weight:800">${longestword}</span>
-    <table id='longest'>${("<tr>" + "<td class='menucell'>".repeat(5) + "<tr>").repeat(5)}</table>` // Create longest word table
+    <table id='longest'>${("<tr>" + "<td class='menucell'>".repeat(5) + "<tr>").repeat(5)}</table>
+    <button onclick='copyimage(longestword)'>Copy Image</button>` // Create longest word table
+    for (let i = 0; i < document.getElementsByClassName("menucell").length; i++) { // Loop through tiles
+      document.getElementsByClassName("menucell")[i].innerText = tiles[i]; // Set letters of table
+      if (wordselects[found.indexOf(longestword)].includes(i)) { // If cell is in the longest word
+        document.getElementsByClassName("menucell")[i].style.backgroundColor = "#30db64"; // Set to green
+      }
+    }
   } else {
     document.getElementById("endtext").innerText = "You didn't find any words :("
   }
-  for (let i = 0; i < document.getElementsByClassName("menucell").length; i++) { // Loop through tiles
-    document.getElementsByClassName("menucell")[i].innerText = tiles[i]; // Set letters of table
-    if (wordselects[found.indexOf(longestword)].includes(i)) { // If cell is in the longest word
-      document.getElementsByClassName("menucell")[i].style.backgroundColor = "#30db64"; // Set to green
-    }
-  }
   clearInterval(interval); // Stop timer
+  for (let i = 0; i < selected.length; i++) {
+    document.getElementById(selected[i]).style.backgroundColor = "white"
+  }
+  selected = []
 }
 
 function bogglelongest(element, index) {
@@ -69,6 +106,9 @@ function bogglelongest(element, index) {
 
 // START GAME
 function startgame() {
+  document.getElementById("end").addEventListener("tap", function() {
+    endmenu(timerinterval)
+  })
   document.getElementById("popup").style.display = "none"; // Hide menu
   document.getElementById("go").style.opacity = "100%"; // Fade in check button
   document.getElementById("title").style.marginTop = "20px" // Move up title
@@ -98,7 +138,7 @@ function startgame() {
   if (importi == '') { // If no board code provided
     for (let i = 0; i < cells.length; i++) { // Loop through cells
       let random = Math.ceil(Math.random() * 6); // Random num 1-6
-      cells[i].innerText = dice[i].substring(random - 1, random); // Get one letter from dice using random num
+      cells[i].innerText = dice[i].charAt(random); // Get one letter from dice using random num
       if (dice[i].substring(random - 1, random) == "Q") { // If Q on the dice
         cells[i].innerText = "Qu"; // Make it Qu
       }
@@ -115,7 +155,7 @@ function startgame() {
       tiles.push(cells[i].innerText);
     }
   }
-  tiles.forEach(bogglelongest(element, index))
+  //tiles.forEach(bogglelongest(element, index))
 }
 
 document.getElementById("popupgo").addEventListener("tap", startgame)
