@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600;800&display=swap" rel="stylesheet">
-    <title>Biggle</title>
+    <title>Boggle</title>
 </head>
 <body>
     <div id="words">
@@ -16,15 +16,18 @@
         <button id="copy">Copy Board Code</button>
     </div>
     <div class="format">
-        <h1 id="title">BIGGLE</h1>
+        <h1 id="title">BOGGLE</h1>
         <h3>A LittleDev Project</h3>
         <table id="game"></table>
         <button id="go">Check</button>
     </div>
-    <div id="timer">0</div>
+    <div id="timerbox">
+        <div id="timer">0</div>
+        <button id="end">End Game</button>
+    </div>
     <div id="popup">
         <div id="switchbox">
-            Biggle is a spinoff of the game Boggle, in which you attempt to find as many words as possible in a certain time using a grid.<br><br>
+            This is a recreation of the game Boggle, in which you attempt to find as many words as possible in a certain time using a grid.<br><br>
             <span id="count">Word Length</span><br>
             <input id="wordlength" type="range" min="2" max="6"><br>
             <span class="label" id="wordlabel">4+</span><br>
