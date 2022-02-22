@@ -33,6 +33,11 @@ table#longest {
 button {
   background-color: #a5abb5;
   color: black;
+  transition: 0.3s;
+  border: 1px solid black;
+}
+button:hover {
+  background-color: #6d6d6d;
 }
 #again {
   width: 150px;
@@ -146,17 +151,20 @@ input {
 input#import {
   width: 350px;
 }
-#timer {
+#timerbox {
   float: right;
   width: 10%;
   height: 8%;
+  margin-top: 15px;
+  margin-right: 15px;
+  height: 100%;
+}
+#timer {
   background-color: #bdc1c6;
   color: black;
   font-size: 40px;
   border-radius: 10%/20%;
   text-align: center;
-  margin-top: 15px;
-  margin-right: 15px;
 }
 #go {
   opacity: 0%;
@@ -182,4 +190,12 @@ input#import {
 #daily {
   width: 50px;
   height: 30px;
+}
+#end, #copy {
+  width: 10%;
+  position: absolute;
+  bottom: 20;
+}
+#end:hover {
+  background-color: #6d6d6d;
 }
