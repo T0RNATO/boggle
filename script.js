@@ -72,7 +72,7 @@ function copyimage(longestword) {
   });
 }
 
-function endmenu(interval) { // Ending popup
+function endmenu(interval) { // Ending popu
   document.getElementById("switchbox").style.display = "none"; // Bring back menu, etc
   document.getElementById("popup").style.display = "block";
   document.getElementById("win").style.display = "inline-block";
