@@ -252,3 +252,4 @@ for (let i = 0; i < cells.length; i++) { // Loop through tiles
   cells[i].addEventListener("tap", clicked); // Assign them numerical ids (0-24)
   cells[i].id = i;
 }
+//comment
